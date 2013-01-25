@@ -82,12 +82,16 @@ div.piece {
             /*border-radius:16px;*/
 }
 
+div.piece.disabled{
+  background-color:#000000;
+}
+
 div.piece.orange{
-    background-color:#ff8166;
+  background-color:#ff8166;
 }
 
 div.piece.blue{
-    background-color:#7fcff4;
+  background-color:#7fcff4;
 }
 
 div.piece:hover {

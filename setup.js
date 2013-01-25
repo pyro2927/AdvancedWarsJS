@@ -6,6 +6,9 @@ var selectedPiece = null;
 // HARDCODE MOVEMENT DISTANCE
 var DISTANCE = 4;
 
+var teams = [".orange", ".blue"];
+var selectedTeamIndex = 0;
+
 function getPixels(x,y) {
   //ok... so takes an x,y position, returns
   //pixels from the left, right
@@ -24,6 +27,11 @@ function movePieceToCoordinates($piece, x, y){
 	$piece.css(getPixels(x,y));
 	selectedPiece = null;
 	clearMovable();
+
+	// disable this piece after we've moved it
+	$piece.unbind('click');
+	// add our alpha
+	$piece.addClass("disabled");
 }
 
 function getCoordsOfObject(object) {
@@ -65,6 +73,18 @@ function selectPieceAndShowMovable(piece){
 	showMovableAreaForPiece(piece);
 }
 
+function endTurn(){
+	// disable the current team's pieces
+	$(teams[selectedTeamIndex]).unbind("click");
+	// bump to next team
+	selectedTeamIndex = ++selectedTeamIndex % teams.length;
+	// allow next teams pieces to be moved
+  $(teams[selectedTeamIndex]).click( function(){
+  	selectPieceAndShowMovable($(this));
+  });
+  alert(teams[selectedTeamIndex] + "'s turn!");
+}
+
 $('document').ready(function() {
   var squareCount = 10*15;
   for (var i = 0;i<squareCount;i++) {
@@ -82,7 +102,7 @@ $('document').ready(function() {
   movePieceToCoordinates($('.blue'), 13, 1);
 
   // allow pieces to be moved
-  $(".piece").click( function(){
+  $(teams[selectedTeamIndex]).click( function(){
   	selectPieceAndShowMovable($(this));
   });
 
