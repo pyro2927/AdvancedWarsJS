@@ -83,7 +83,7 @@ div.piece {
 }
 
 div.piece.disabled{
-  background-color:#000000;
+  opacity:0.4;
 }
 
 div.piece.orange{
@@ -116,5 +116,7 @@ div.piece.dark {
 }
 
 div#meta {
-    float:right;
+    float:none;
+    border-left:10px;
+    margin-left:10px;
 }

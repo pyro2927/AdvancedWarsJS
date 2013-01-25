@@ -23,7 +23,7 @@ function clearMovable(){
 	});
 }
 
-function movePieceToCoordinates($piece, x, y){
+function movePieceToCoordinates($piece, x, y, keepEnabled){
 	$piece.css(getPixels(x,y));
 	selectedPiece = null;
 	clearMovable();
@@ -31,7 +31,9 @@ function movePieceToCoordinates($piece, x, y){
 	// disable this piece after we've moved it
 	$piece.unbind('click');
 	// add our alpha
-	$piece.addClass("disabled");
+	if (arguments.length < 3 || !keepEnabled) {
+		$piece.addClass("disabled");
+	}
 }
 
 function getCoordsOfObject(object) {
@@ -82,7 +84,9 @@ function endTurn(){
   $(teams[selectedTeamIndex]).click( function(){
   	selectPieceAndShowMovable($(this));
   });
-  alert(teams[selectedTeamIndex] + "'s turn!");
+  $("#turn").text(teams[selectedTeamIndex] + "'s turn");
+  // re-enable the other players pieces
+  $(".disabled").removeClass("disabled");
 }
 
 $('document').ready(function() {
@@ -95,11 +99,11 @@ $('document').ready(function() {
 
   // add in one player piece
   $('div#board').append($('<div/>').addClass('piece').addClass("orange"));
-  movePieceToCoordinates($(".piece"), 1, 1);
+  movePieceToCoordinates($(".piece"), 1, 1, true);
 
 // add in a blue piece
   $('div#board').append($('<div/>').addClass('piece').addClass("blue"));
-  movePieceToCoordinates($('.blue'), 13, 1);
+  movePieceToCoordinates($('.blue'), 13, 1, true);
 
   // allow pieces to be moved
   $(teams[selectedTeamIndex]).click( function(){
