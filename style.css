@@ -8,8 +8,8 @@ div#board {
     float:left;
     
     
-    height:480px;
-    width:720px;
+    height:478px;
+    width:718px;
     
     border-style:solid;
     border-width:9px;
@@ -46,7 +46,7 @@ div.square.movable:hover {
 }
 
 /* the bottom row */
-div.square:nth-last-child(-n + 15) {
+div.square:nth-last-child(-n + 17) {
     border-bottom-style:none;
 }
 
