@@ -12,14 +12,18 @@ function getPixels(x,y) {
   return {'top':  (y * (width+border) + 1)+'px','left': (x * (width+border) + 1)+'px'};    
 }
 
-function movePieceToCoordinates($piece, x, y){
-	$piece.css(getPixels(x,y));
-	selectedPiece = null;
+function clearMovable(){
 	// clear all movement squares
 	$(".movable").each(function(){
 		$(this).removeClass("movable");
 		$(this).unbind('click');
 	});
+}
+
+function movePieceToCoordinates($piece, x, y){
+	$piece.css(getPixels(x,y));
+	selectedPiece = null;
+	clearMovable();
 }
 
 function getCoordsOfObject(object) {
@@ -52,6 +56,11 @@ function showMovableAreaForPiece(piece){
 }
 
 function selectPieceAndShowMovable(piece){
+	clearMovable();
+	if (selectedPiece != null && selectedPiece.get(0) === piece.get(0)) {
+		selectedPiece = null;
+		return;
+	}
 	selectedPiece = piece;
 	showMovableAreaForPiece(piece);
 }
