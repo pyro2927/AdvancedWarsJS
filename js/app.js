@@ -16,6 +16,7 @@ var Unit = Backbone.Model.extend({
         health: 10
     }
 });
+
 var BoardSpace = Backbone.Model.extend({
     // setup our default values
     defaults: {
@@ -54,7 +55,7 @@ var UnitView = Backbone.View.extend({
     },
     toggleMovable : function(){
         // show our movable area on our board
-        window.board.showMovableArea(this.model);
+        board.showMovableArea(this.model);
     }
 });
 
@@ -62,6 +63,9 @@ var UnitView = Backbone.View.extend({
 var BoardSpaceView = Backbone.View.extend({
     tagName: "div",
     className: "square",
+    events:{
+        "click" : "movePieceToMe"
+    },
     render : function(){
         this.$el.addClass(this.model.get("type"));
         return this;
@@ -77,6 +81,12 @@ var BoardSpaceView = Backbone.View.extend({
             this.$el.addClass("movable");
         } else {
             this.$el.removeClass("movable");
+        }
+    },
+    movePieceToMe : function(){
+        // make sure we are allowed to be moved to
+        if (this.model.get("highlighted") == true) {
+            board.moveSelectedPieceTo(this);
         }
     }
 });
@@ -102,9 +112,12 @@ var Board = Backbone.Model.extend({
     initialize : function(){
         this.spaces = new BoardSpaces;
     },
-    showMovableArea : function(unitModel){
+    clearMovable : function(){
         // clear our current movables
         _.each(this.spaces.models, function(space){ space.set("highlighted", false) } );
+    },
+    showMovableArea : function(unitModel){
+        this.clearMovable();
         // see if we should stop here
         if (selectedPiece === unitModel) {
             selectedPiece = null;
@@ -120,6 +133,12 @@ var Board = Backbone.Model.extend({
                 space.set("highlighted", true);
             }
         });
+    },
+    moveSelectedPieceTo : function (boardSpaceView){
+        selectedPiece.set("x", boardSpaceView.model.get("x"));
+        selectedPiece.set("y", boardSpaceView.model.get("y"));
+        this.clearMovable();
+        selectedPiece = null;
     }
 });
 
