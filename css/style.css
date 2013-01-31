@@ -103,7 +103,7 @@ div.piece.selected {
        -moz-box-shadow: 0px 0px 8px #FFD700;
             box-shadow: 0px 0px 8px #FFD700;
 }
-    
+
 div.piece.light {
     background-color:red;
 }

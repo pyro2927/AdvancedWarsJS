@@ -4,6 +4,19 @@ var border = 2;
 
 var selectedPiece = null;
 
+
+function prepSelectedForMovement(){
+    board.showMovableArea(selectedPiece);
+    removeMenu();
+}
+function removeMenu(){
+    $(".unitmenu").remove();
+}
+function cancelMenu(){
+    removeMenu();
+    selectedPiece = null;
+}
+
 // setup our models
 var Unit = Backbone.Model.extend({
     // setup our default values
@@ -41,31 +54,14 @@ var UnitView = Backbone.View.extend({
     tagName: "div",
     className: "piece",
     events:{
-        "click" : "showMenu",
-        "click #Move": "toggleMovable"
+        "click" : "showMenu"
     },
     render : function(){
         // add class so we show up as the correct color
         this.$el.addClass(this.model.get("color"));
         // show our health
         var html = this.model.get("health")
-
-        var menuHtml = "";
-        // if we are selected, show our menu
-        if(selectedPiece == this.model){
-            //setup our menu
-            var menu = $('<div/>').addClass("unitmenu").addClass("hidden");
-            menu.css(this.model.cssPosition(20));
-            // figure out our menu options
-            var options = ["Move", "Fire", "Cancel"];
-            menuHtml += "<div class='unitmenu hidden'>";
-            $.each(options, function(i, option){
-                menuHtml += "<a href='#' id='" + option + "'>" + option + "</a><br/>";
-            });
-            menuHtml += "</div>";
-        }
-
-        this.el.innerHTML = html + menuHtml;
+        this.el.innerHTML = html;
         // set initial placement
         this.move();
         return this;
@@ -86,16 +82,19 @@ var UnitView = Backbone.View.extend({
             return;
         }
         selectedPiece = this.model;
-        alert("showing menu!");
-        this.el = this.render();
-    },
-    hideMenu : function(){
-        this.menu.addClass("hidden");
-    },
-    toggleMovable : function(){
-        // show our movable area on our board
-        alert("set movable");
-        board.showMovableArea(this.model);
+
+        //setup our menu
+        var menu = $('<div/>').addClass("unitmenu");
+        menu.css(this.model.cssPosition(20));
+        // figure out our menu options
+        var options = ["Move", "Fire", "Cancel"];
+        var selectors = ["prepSelectedForMovement()", "", "cancelMenu()"];
+        var menuHtml = "";
+        $.each(options, function(i, option){
+            menuHtml += "<a href='#' onclick='" + selectors[i] + ";' id='" + option + "'>" + option + "</a><br/>";
+        });
+        menu.html(menuHtml);
+        $('div#pieces').append(menu);
     }
 });
 
@@ -158,11 +157,6 @@ var Board = Backbone.Model.extend({
     },
     showMovableArea : function(unitModel){
         this.clearMovable();
-        // see if we should stop here
-        if (selectedPiece === unitModel) {
-            selectedPiece = null;
-            return;
-        }
         // otherwise we can set highlighted movement areas
         selectedPiece = unitModel;
         var unitX = unitModel.get("x");
