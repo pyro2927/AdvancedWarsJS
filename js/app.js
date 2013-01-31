@@ -142,7 +142,24 @@ var Board = Backbone.Model.extend({
         selectedPiece.set("x", boardSpaceView.model.get("x"));
         selectedPiece.set("y", boardSpaceView.model.get("y"));
         this.clearMovable();
+        // mark our unit as being in this space
+        boardSpaceView.model.unit = selectedPiece;
+        var enemies = this.enemiesInRangeOfUnit(selectedPiece);
         selectedPiece = null;
+    },
+    enemiesInRangeOfUnit : function(unitModel){
+        var enemies = [];
+        var unitX = unitModel.get("x");
+        var unitY = unitModel.get("y");
+        var range = unitModel.get("range");
+        // add all enemies in range of our unit to this array
+        _.each(this.spaces.models, function(boardSpace){
+            if (boardSpace.unit != null && boardSpace.unit.get("color") != unitModel.get("color") && Math.abs(unitX - boardSpace.get("x")) + Math.abs(unitY - boardSpace.get("y")) <= range){
+                enemies.push(boardSpace.unit);
+                alert(boardSpace.unit.get("name"));
+            }
+        });
+        return enemies;
     }
 });
 
