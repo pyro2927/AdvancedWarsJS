@@ -9,11 +9,12 @@ var Unit = Backbone.Model.extend({
     // setup our default values
     defaults: {
         name: "Unit",
-        movement: 4,
+        movement: 3,
         x: 0,
         y: 0,
         color: "",
-        health: 10
+        health: 10,
+        range: 1
     }
 });
 
