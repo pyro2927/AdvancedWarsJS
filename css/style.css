@@ -4,10 +4,7 @@ div#game {
 
 
 div#board {
-    
     float:left;
-    
-    
     height:478px;
     width:718px;
     
@@ -46,7 +43,7 @@ div.square.movable:hover {
 }
 
 /* the bottom row */
-div.square:nth-last-child(-n + 17) {
+div.square:nth-last-child(-n + 15) {
     border-bottom-style:none;
 }
 
