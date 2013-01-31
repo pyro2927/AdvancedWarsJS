@@ -25,6 +25,9 @@ var BoardSpace = Backbone.Model.extend({
         highlighted: false,
         x: 0,
         y: 0
+    },
+    initialize : function(options) {
+        this.unit = null;
     }
 });
 
