@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>AdvanceWarsJS</title>
+		<link rel="stylesheet" href="/style.css"/>
+		<script src='/jquery.js'></script>
+		<script src='/setup.js'></script>
+	</head>
+	<body>
+		<div id="game">
+		    <div id="board">
+		    </div>
+		    
+		    <div id="pieces">
+		    </div>
+		    
+		</div>
+		<div id="meta">
+			<h1 id="turn">.orange's turn</h1>
+			<a href="javascript:endTurn()">End Turn</a>
+		</div>
+	</body>
+</html>

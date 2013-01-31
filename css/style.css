@@ -62,8 +62,8 @@ div.square.grass {
 div#pieces {
     position:absolute;
     /* 9 px puts us inside of the board's borders;*/
-    left:9px;
-    top:9px;
+    left:1px;
+    top:1px;
     background-color:green;
 }
 

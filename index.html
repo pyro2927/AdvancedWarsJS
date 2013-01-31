@@ -1,22 +1,23 @@
-<html>
-	<head>
-		<title>AdvanceWarsJS</title>
-		<link rel="stylesheet" href="/style.css"/>
-		<script src='/jquery.js'></script>
-		<script src='/setup.js'></script>
-	</head>
-	<body>
-		<div id="game">
-		    <div id="board">
-		    </div>
-		    
-		    <div id="pieces">
-		    </div>
-		    
-		</div>
-		<div id="meta">
-			<h1 id="turn">.orange's turn</h1>
-			<a href="javascript:endTurn()">End Turn</a>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>AdvanceWarsJS</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        <div id="game">
+            <div id="board">
+            </div>
+            
+            <div id="pieces">
+            </div>
+        </div>
+        <script src="/js/jquery.js"></script>
+        <script src="/js/Underscore-min.js"></script>
+        <script src="/js/Backbone-min.js"></script>
+        <!-- todo: phase out setup, move things into models/views -->
+        <script src="/js/setup.js"></script>
+        <script src="/js/app.js"></script>
+    </body>
 </html>

@@ -96,18 +96,4 @@ $('document').ready(function() {
       //and appends it to the div with id 'board'
       $('div#board').append($('<div/>').addClass('square').addClass("grass"));
   }
-
-  // add in one player piece
-  $('div#board').append($('<div/>').addClass('piece').addClass("orange"));
-  movePieceToCoordinates($(".piece"), 1, 1, true);
-
-// add in a blue piece
-  $('div#board').append($('<div/>').addClass('piece').addClass("blue"));
-  movePieceToCoordinates($('.blue'), 13, 1, true);
-
-  // allow pieces to be moved
-  $(teams[selectedTeamIndex]).click( function(){
-  	selectPieceAndShowMovable($(this));
-  });
-
 });
