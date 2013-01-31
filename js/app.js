@@ -205,4 +205,11 @@ var unit2View = new UnitView({
     model: unit2
 });
 
+// create a blue team
+var blueTeam = new Team({color: "blue"});
+game.players.add(blueTeam);
+var blueUnit = new Unit({name: "mech", x:4, y: 1});
+blueTeam.units.add(blueUnit);
+new UnitView({model: blueUnit});
+
 console.log("Server up and running!");
