@@ -15,6 +15,11 @@ var Unit = Backbone.Model.extend({
         color: "",
         health: 10,
         range: 1
+    },
+    cssPosition : function(optionalInset){
+        if (optionalInset == null)
+            optionalInset = 0;
+        return {'top':  (optionalInset + this.get("y") * (width+border))+'px', 'left': (optionalInset + this.get("x") * (width+border))+'px'};
     }
 });
 
@@ -36,19 +41,37 @@ var UnitView = Backbone.View.extend({
     tagName: "div",
     className: "piece",
     events:{
-        "click" : "toggleMovable"
+        "click" : "showMenu",
+        "click #Move": "toggleMovable"
     },
     render : function(){
         // add class so we show up as the correct color
         this.$el.addClass(this.model.get("color"));
         // show our health
-        this.el.innerHTML = this.model.get("health");
+        var html = this.model.get("health")
+
+        var menuHtml = "";
+        // if we are selected, show our menu
+        if(selectedPiece == this.model){
+            //setup our menu
+            var menu = $('<div/>').addClass("unitmenu").addClass("hidden");
+            menu.css(this.model.cssPosition(20));
+            // figure out our menu options
+            var options = ["Move", "Fire", "Cancel"];
+            menuHtml += "<div class='unitmenu hidden'>";
+            $.each(options, function(i, option){
+                menuHtml += "<a href='#' id='" + option + "'>" + option + "</a><br/>";
+            });
+            menuHtml += "</div>";
+        }
+
+        this.el.innerHTML = html + menuHtml;
         // set initial placement
         this.move();
         return this;
     },
     move : function(){
-        this.$el.css({'top':  (this.model.get("y") * (width+border))+'px', 'left': (this.model.get("x") * (width+border))+'px'});
+        this.$el.css(this.model.cssPosition());
     },
     initialize : function(options) {
         this.move = _.bind(this.move, this);
@@ -57,8 +80,21 @@ var UnitView = Backbone.View.extend({
         // add it to our pieces div
         $('div#pieces').append(this.render().el);
     },
+    showMenu : function(){
+        // make sure we only show our menu if no other piece is selected
+        if (selectedPiece != null) {
+            return;
+        }
+        selectedPiece = this.model;
+        alert("showing menu!");
+        this.el = this.render();
+    },
+    hideMenu : function(){
+        this.menu.addClass("hidden");
+    },
     toggleMovable : function(){
         // show our movable area on our board
+        alert("set movable");
         board.showMovableArea(this.model);
     }
 });
